@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>pointageencaissementboutique</name>
+	<displayName><![CDATA[pointageencaissementboutique]]></displayName>
+	<version><![CDATA[1.0.0]]></version>
+	<description><![CDATA[Interface de pointage des encaissements de la boutique en particulier des cartes bleues.]]></description>
+	<author><![CDATA[Hugo DOUEIL]]></author>
+	<tab><![CDATA[administration]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+</module>
