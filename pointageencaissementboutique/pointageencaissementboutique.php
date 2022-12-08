@@ -40,7 +40,7 @@ class PointageEncaissementBoutique extends Module
     {
         $this->name = 'pointageencaissementboutique';
         $this->tab = 'administration';
-        $this->version = '1.0.0';
+        $this->version = '1.1.0';
         $this->author = 'Hugo DOUEIL';
         $this->need_instance = 1;
 
@@ -69,10 +69,7 @@ class PointageEncaissementBoutique extends Module
 
         include(dirname(__FILE__).'/sql/install.php');
 
-        return parent::install() &&
-            $this->registerHook('header') &&
-            $this->registerHook('displayBackOfficeHeader') &&
-            $this->registerHook('actionAdminControllerSetMedia');
+        return parent::install() && $this->manuallyInstallTab();
     }
 
     private function manuallyInstallTab(): bool
@@ -94,6 +91,7 @@ class PointageEncaissementBoutique extends Module
         $tab->icon = 'build';
         $tab->id_parent = (int) Tab::getIdFromClassName('IMPROVE');
         $tab->module = $this->name;
+        return true;
 
     }
 
@@ -104,6 +102,11 @@ class PointageEncaissementBoutique extends Module
         include(dirname(__FILE__).'/sql/uninstall.php');
 
         return parent::uninstall();
+    }
+
+    private function uninstallTab()
+    {
+        return parent::uninstall() && $this->uninstallTab();
     }
 
     /**
