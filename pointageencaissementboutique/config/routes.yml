@@ -1,0 +1,5 @@
+xx_pointage_encaissement:
+    path: /pointage_encaissement
+    methods: [GET]
+    defaults:
+        _controller: 'PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin\ListOrderController::indexAction'

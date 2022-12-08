@@ -28,6 +28,10 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
+require_once __DIR__ . '/vendor/autoload.php';
+
+use PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin\ListOrderController;
+
 class PointageEncaissementBoutique extends Module
 {
     protected $config_form = false;
@@ -69,6 +73,28 @@ class PointageEncaissementBoutique extends Module
             $this->registerHook('header') &&
             $this->registerHook('displayBackOfficeHeader') &&
             $this->registerHook('actionAdminControllerSetMedia');
+    }
+
+    private function manuallyInstallTab(): bool
+    {
+        $controllerClassName = ListOrderController::TAB_CLASS_NAME;
+        $tabId = (int) Tab::getIdFromClassName($controllerClassName);
+        if (!$tabId) {
+            $tabId = null;
+        }
+
+        $tab = new Tab($tabId);
+        $tab->active = 1;
+        $tab->class_name = $controllerClassName;
+        $tab->route_name = 'xx_pointage_encaissement';
+        $tab->name = [];
+        foreach (Language::getLanguages() as $lang) {
+            $tab->name[$lang['id_lang']] = $this->trans('Pointage Encaissement Boutique', [], 'Modules.Pointageencaissementboutique.Admin', $lang['locale']);
+        }
+        $tab->icon = 'build';
+        $tab->id_parent = (int) Tab::getIdFromClassName('IMPROVE');
+        $tab->module = $this->name;
+
     }
 
     public function uninstall()
