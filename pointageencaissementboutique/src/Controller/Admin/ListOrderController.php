@@ -12,7 +12,7 @@ use PrestaShop\PrestaShop\Adapter\Entity\Db;
 class ListOrderController extends FrameworkBundleAdminController
 {
 
-    const TAB_CLASS_NAME = 'CommandeClientListOrderController';
+    const TAB_CLASS_NAME = 'PointageEncaissementBoutiqueListOrderController';
     
     public function connectionSQL($condition)
     {
