@@ -180,7 +180,7 @@ textarea {
 
 ---
 
-##pointageencaissementboutique.php
+## pointageencaissementboutique.php
 
 ```php
 <?php
@@ -446,7 +446,7 @@ class PointageEncaissementBoutique extends Module
 
 ---
 
-##ListOrderController.php
+## ListOrderController.php
 
 ```php
 <?php
