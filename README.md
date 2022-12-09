@@ -35,7 +35,7 @@ textarea {
 }
 </style>
 
-	<div class="w-full bg-gray-50 p-3 rounded-lg">
+	<div class="w-full bg-gray-50 p-3 rounded-lg overflow-auto">
 		<div class="w-full px-3 py-2 bg-gray-600 flex items-center mb-4 rounded-lg">
 			<p class="text-white text-[20px]">Date</p>
 			<form class="ml-3 flex inline">
@@ -52,23 +52,28 @@ textarea {
 			</form>
 		</div>
 		<p class="text-black text-[16px]">Liste des encaissements :</p>
-		<div class="w-full flex gap-3">
+		<div class="w-full flex gap-3 overflow-auto relative">
 			<div class="w-3/4">
 				<table class="w-full rounded-lg">
 					<thead>
 						<tr>
-							<th>Mode</th>
-							<th>Type</th>
-							<th>Montant</th>
-							<th>Montant Encaissé</th>
-							<th>Facture</th>
-							<th>Date</th>
-							<th>Vendeur</th>
+							<th class="p-1">Mode</th>
+							<th class="p-1">Type</th>
+							<th class="p-1 flex items-center justify-between">
+								<p>Montant</p>
+								<div>
+									<p class="hidden">0</p>
+									<input id="select-all" type="checkbox">
+								</div>
+							</th>
+							<th class="p-1">Montant Encaissé</th>
+							<th class="p-1">Facture</th>
+							<th class="p-1">Date</th>
+							<th class="p-1">Vendeur</th>
 						</tr>
 					</thead>
 					<tbody>
-					{% for item in data %}
-    					{% set orderViewUrl = getAdminLink('AdminOrders', true, {'id_order': item.id_order, 'vieworder': 1}) %}			
+					{% for item in data %}	
 						<tr>
 							<td>
 								<select class="w-[12vh] h-[3vh]">
@@ -77,27 +82,27 @@ textarea {
 									<option>CHEQUE</option>
 								</select>
 							</td>
-							<td>FACTURE</td>
+							<td></td>
 							<td>
 								<div class="w-full flex inline items-center justify-between">
-									<p>200.00</p>
+									<p>{{item.amount}}</p>
 									<input type="checkbox">
 								</div>
 							</td>
 							<td>
 								<div class="w-full">
-									<input type="text" value="200.00" class="border border-black">
+									<input type="text" value="{{item.amount}}" class="border border-black">
 								</div>
 							</td>
-							<td>{{item.id_order}}</td>
-							<td>10/11/2022</td>
-							<td>juliengabriel</td>
+							<td></td>
+							<td>{{item.date_add}}</td>
+							<td></td>
 						</tr>
 					{% endfor %}
 					</tbody>
 				</table>
 			</div>
-			<div class="w-1/4">
+			<div id="sidebar" class="w-1/4 sticky top-0">
 				<div class="w-full border border-black rounded-lg bg-gray-100">
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Nombre de Tickets</p>
@@ -105,11 +110,14 @@ textarea {
 					</div>
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Total Théorique</p>
-						<p class="text-black text-[14px] font-bold">598.94</p>
+						<p id="total-theorique" class="text-black text-[14px] font-bold">0.00</p>
 					</div>
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Total Coché</p>
-						<p class="text-black text-[14px] font-bold">0.00</p>
+						<div class="flex items-center">
+							<p id="total-coche" class="text-black text-[14px] font-bold">0.00</p>
+							<p class="text-black text-[14px] font-bold ml-1">€</p>
+						</div>
 					</div>
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Différence</p>
@@ -125,6 +133,47 @@ textarea {
 		</div>
 	</div>
 </div>
+
+<script>
+	
+</script>
+
+<script>
+  // Écoutez les changements dans les cases à cocher
+  document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', updateTotal);
+  });
+
+  function updateTotal() {
+    // Sélectionnez toutes les cases à cocher cochées
+    const checkedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+    // Ajouter les valeurs correspondantes des cases à cocher cochées
+    let total = 0;
+    checkedCheckboxes.forEach(checkbox => {
+      // Obtenez la valeur de l'élément parent de la case à cocher.
+      const amount = checkbox.parentElement.querySelector('p').innerText;
+      total += parseFloat(amount);
+    });
+
+    // Afficher le total
+    document.querySelector('#total-coche').innerText = total;
+  }
+
+  // Écoutez les clics sur la case à cocher "select-all".
+  document.querySelector('#select-all').addEventListener('click', selectAll);
+
+  function selectAll() {
+    // Sélectionnez toutes les cases à cocher.
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    // Cocher ou décocher toutes les cases à cocher en fonction de l'état de la case à cocher "Sélectionner tout".
+    const isChecked = document.querySelector('#select-all').checked;
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = isChecked;
+    });
+  }
+</script>
 
 {% endblock %}
 ```
@@ -391,6 +440,60 @@ class PointageEncaissementBoutique extends Module
     public function hookActionAdminControllerSetMedia()
     {
         /* Place your code here. */
+    }
+}
+```
+
+---
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin;
+
+use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Query\QueryBuilder;
+use PrestaShop\PrestaShop\Adapter\Entity\Db;
+
+class ListOrderController extends FrameworkBundleAdminController
+{
+
+    const TAB_CLASS_NAME = 'PointageEncaissementBoutiqueListOrderController';
+    
+    public function connectionSQL($condition)
+    {
+        // Connexion à la base de données
+        $db = Db::getInstance();
+
+        // Préparation de la requête
+        $requete = "SELECT ps_order_payment.id_order_payment,
+                           ps_order_payment.amount,
+                           ps_order_payment.date_add,
+                           orders.id_order
+        FROM ps_order_payment 
+        INNER JOIN ps_orders orders ON orders.reference = ps_order_payment.order_reference 
+        " . $condition . "
+        GROUP BY ps_order_payment.id_order_payment
+        ORDER BY ps_order_payment.date_add DESC
+        LIMIT 25;
+        ";
+
+
+        
+        return $db->executeS($requete);
+    }
+
+    public function indexAction()
+    {
+        $data = $this->connectionSQL("");
+        return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage.html.twig',
+        [
+            'data' => $data,
+            'ok' => false
+        ]);
     }
 }
 ```
