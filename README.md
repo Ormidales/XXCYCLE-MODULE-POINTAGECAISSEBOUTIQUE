@@ -1,7 +1,7 @@
 ---
 
 # XXCYCLE-MODULE-POINTAGECAISSEBOUTIQUE
-## Version 1.2.4
+## Version 1.2.5
 
 Ceci est un fichier PHP pour un module PrestaShop. Il définit une classe appelée PointageEncaissementBoutique qui étend la classe Module fournie par PrestaShop. Le module ajoute une interface personnalisée dans le back-office d'un magasin PrestaShop qui permet aux commerçants de suivre les paiements, en particulier ceux effectués par carte de crédit. Le module définit plusieurs méthodes, notamment install, uninstall, getContent et postProcess. Les méthodes install et uninstall sont utilisées pour installer et désinstaller le module, respectivement. La méthode getContent est appelée lors de l'accès à la page de configuration du module et renvoie le formulaire qui permet aux utilisateurs de configurer le module. La méthode postProcess est appelée lorsque le formulaire est soumis et qu'elle enregistre les paramètres de configuration.
 
@@ -11,8 +11,7 @@ Ce code est un module PrestaShop qui fournit une interface pour le suivi des rec
 
 ---
 
-![Capture d’écran 2022-12-14 154416](https://user-images.githubusercontent.com/46538211/207626767-4e8435a8-3977-4ff6-9b42-f4331ccd4288.png)
-![Capture d’écran 2022-12-14 154449](https://user-images.githubusercontent.com/46538211/207626755-c84525f8-91db-43c3-9293-c3e4000f0b31.png)
+![Capture d’écran 2022-12-14 171503](https://user-images.githubusercontent.com/46538211/207649348-7f02feca-3265-4d53-87d7-5004437bc09d.png)
 
 ---
 
