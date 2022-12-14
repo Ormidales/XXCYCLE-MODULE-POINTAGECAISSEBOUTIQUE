@@ -1,5 +1,7 @@
+---
+
 # XXCYCLE-MODULE-POINTAGECAISSEBOUTIQUE
-## Version 1.2.3
+## Version 1.2.4
 
 Ceci est un fichier PHP pour un module PrestaShop. Il définit une classe appelée PointageEncaissementBoutique qui étend la classe Module fournie par PrestaShop. Le module ajoute une interface personnalisée dans le back-office d'un magasin PrestaShop qui permet aux commerçants de suivre les paiements, en particulier ceux effectués par carte de crédit. Le module définit plusieurs méthodes, notamment install, uninstall, getContent et postProcess. Les méthodes install et uninstall sont utilisées pour installer et désinstaller le module, respectivement. La méthode getContent est appelée lors de l'accès à la page de configuration du module et renvoie le formulaire qui permet aux utilisateurs de configurer le module. La méthode postProcess est appelée lorsque le formulaire est soumis et qu'elle enregistre les paramètres de configuration.
 
@@ -9,7 +11,10 @@ Ce code est un module PrestaShop qui fournit une interface pour le suivi des rec
 
 ---
 
-## pointage.html.twig
+![Capture d’écran 2022-12-14 154416](https://user-images.githubusercontent.com/46538211/207626767-4e8435a8-3977-4ff6-9b42-f4331ccd4288.png)
+![Capture d’écran 2022-12-14 154449](https://user-images.githubusercontent.com/46538211/207626755-c84525f8-91db-43c3-9293-c3e4000f0b31.png)
+
+---
 
 ```twig
 {% extends '@PrestaShop/Admin/layout.html.twig' %}
@@ -37,22 +42,27 @@ textarea {
 </style>
 
 	<div class="w-full bg-gray-50 p-3 rounded-lg overflow-auto">
-		<div class="w-full px-3 py-2 bg-gray-600 flex items-center mb-4 rounded-lg">
-			<p class="text-white text-[20px]">Date</p>
+		<div class="w-full px-3 py-2 bg-gray-600 flex items-center justify-between items-center mb-4 rounded-lg">
+			<p class="text-white text-[18px] font-bold">Liste des encaissements</p>
 			<form class="ml-3 flex inline">
-				<input type="date" class="w-[40vh] h-[3vh]">
-				<select class="ml-2 w-[15vh] h-[3vh]">
-					<option>ESPECE</option>
-					<option>CARTE BLEU</option>
+				<input type="text" placeholder="Choisir la date voulue" class="w-[40vh] h-[4vh] border border-black text-black px-2">
+				<select class="ml-2 w-[18vh] h-[4vh] px-2">
+					<option>CB + PNF</option>
 					<option>CHEQUE</option>
+					<option>ESPECE</option>
+					<option>CREDIT CLIENT</option>
+					<option>VIREMENT</option>
+					<option>PAYPAL</option>
+					<option>1EURO</option>
+					<option>LCR</option>
 				</select>
-				<select class="ml-2 w-[15vh] h-[3vh]">
+				<select class="ml-2 w-[18vh] h-[4vh] px-2">
 					<option>Boutique</option>
+					<option>Internet</option>
 				</select>
 				<input type="submit" value="Charger" class="ml-2 bg-blue-500 px-4 py-1 rounded-lg text-white">
 			</form>
 		</div>
-		<p class="text-black text-[16px]">Liste des encaissements :</p>
 		<div class="w-full flex gap-3 overflow-auto relative">
 			<div class="w-3/4">
 				<table class="w-full rounded-lg">
@@ -78,27 +88,61 @@ textarea {
 						<tr>
 							<td>
 								<select class="w-[12vh] h-[3vh]">
+									<option>CB</option>
 									<option>ESPECE</option>
-									<option>CARTE BLEU</option>
 									<option>CHEQUE</option>
+									<option>VIREMENT</option>
+									<option>XXCB</option>
+									<option>CREDIT CLIENT</option>
 								</select>
 							</td>
-							<td></td>
+							<td> FACTURE </td>
 							<td>
 								<div class="w-full flex inline items-center justify-between">
-									<p>{{item.amount}}</p>
+									<p> {{item.montant}} </p>
 									<input type="checkbox">
 								</div>
 							</td>
 							<td>
 								<div class="w-full">
-									<input type="text" value="{{item.amount}}" class="border border-black">
+									{% if item.montant in item.montant_payment %}
+									<input type="text" value="{{item.montant_payment}}" class="border-2 border-green-700 text-green-700 px-1 bg-green-500/5">
+									{% else %}
+									<input type="text" value="{{item.montant_payment}}" class="border-2 border-red-700 text-red-700 px-1 bg-red-500/5">
+									{% endif %}
 								</div>
 							</td>
-							<td></td>
-							<td>{{item.date_add}}</td>
+							<td> {{item.id_order}} </td>
+							<td> {{item.date_facturation}} </td>
 							<td></td>
 						</tr>
+						{# <tr>
+							<td>
+								<select class="w-[12vh] h-[3vh]">
+									<option>CB</option>
+									<option>ESPECE</option>
+									<option>CHEQUE</option>
+									<option>VIREMENT</option>
+									<option>XXCB</option>
+									<option>CREDIT CLIENT</option>
+								</select>
+							</td>
+							<td> FACTURE </td>
+							<td>
+								<div class="w-full flex inline items-center justify-between">
+									<p> {{item.id_employee}} </p>
+									<input type="checkbox">
+								</div>
+							</td>
+							<td>
+								<div class="w-full">
+									<input type="text" value="" class="border border-green-600 text-green-600">
+								</div>
+							</td>
+							<td> {{item.lastname}} </td>
+							<td>  </td>
+							<td>  </td>
+						</tr> #}
 					{% endfor %}
 					</tbody>
 				</table>
@@ -111,7 +155,14 @@ textarea {
 					</div>
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Total Théorique</p>
-						<p id="total-theorique" class="text-black text-[14px] font-bold">0.00</p>
+						<div class="flex items-center">
+							{% set total = 0 %}
+							{% for item in data %}
+								{% set total = total + item.montant %}
+							{% endfor %}
+							<p id="total-theorique" class="text-black text-[14px] font-bold">{{ total }}</p>
+							<p class="text-black text-[14px] font-bold ml-1">€</p>
+						</div>
 					</div>
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Total Coché</p>
@@ -122,11 +173,14 @@ textarea {
 					</div>
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Différence</p>
-						<p class="text-black text-[14px] font-bold">598.94</p>
+						<div class="flex items-center">
+							<p class="text-black text-[14px] font-bold">0.00</p>
+							<p class="text-black text-[14px] font-bold ml-1">€</p>
+						</div>
 					</div>
 					<div class="w-full px-4 py-2 pb-4">
 						<p class="text-black text-[14px]">Commentaire</p>
-						<textarea class="mt-2 w-full h-[20vh] border border-black"></textarea>
+						<textarea class="mt-2 w-full min-h-[20vh] border border-black"></textarea>
 						<input type="submit" value="Valider" class="mt-2 bg-blue-500 px-3 py-1 rounded-lg text-white">
 					</div>
 				</div>
@@ -181,7 +235,219 @@ textarea {
 
 ---
 
-## pointageencaissementboutique.php
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin;
+
+use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Query\QueryBuilder;
+use PrestaShop\PrestaShop\Adapter\Entity\Db;
+use Symfony\Component\HttpFoundation\Request;
+
+class ListOrderController extends FrameworkBundleAdminController
+{
+
+    // /**
+    //  * @Route("/pointage_encaissement/{date}", name="pointage_encaissement")
+    //  */
+    // public function index($date)
+    // {
+    //     // Connect to the database and retrieve the data using the provided MySQL query
+    //     $data = "SELECT * FROM ps_order_payment";
+
+    //     // Pass the data to the Twig template
+    //     return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage.html.twig', [
+    //         'date' => $date,
+    //         'data' => $data,
+    //     ]);
+    // }
+
+    // public function indexAction()
+    // {
+    //     $data = $this->index('LIMIT 10');
+    //     return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage.html.twig',
+    //     [
+    //         'data' => $data,
+    //         'ok' => false
+    //     ]);
+    // }
+
+    const TAB_CLASS_NAME = 'PointageEncaissementBoutiqueListOrderController';
+    
+    public function connectionSQL($condition)
+    {
+        // Connexion à la base de données
+        $db = Db::getInstance();
+
+        // // Préparation de la requête
+        // $requete = "SELECT ps_orders.id_order, 
+        //                    CONCAT(livraison.firstname, ' ', livraison.lastname) as nom, 
+        //                    carrier.name as livraison, 
+        //                    CAST(ps_orders.total_paid_tax_incl as decimal(20,2)) as montant,
+        //                    date_format(payment.date_add,\"%d-%m-%Y\") as date,
+        //                    SUM(detail.product_quantity) as quantity,
+        //                    SUM(detail.product_quantity_in_stock) as quantity_stock,
+        //                    CONCAT(SUM(detail.product_quantity_in_stock), '/', SUM(detail.product_quantity)) as dispo,
+        //                    payment.payment_method as payment_method,
+        //                    payment.amount as amount,
+        //                    payment.id_order_payment as id_transaction,
+        //                    history.id_employee as employee
+        //                    /*payment_detail.type as type_transaction*/
+        //             FROM ps_orders
+        //             INNER JOIN ps_address facturation ON facturation.id_address = ps_orders.id_address_invoice
+        //             INNER JOIN ps_address livraison ON livraison.id_address = ps_orders.id_address_delivery
+        //             INNER JOIN ps_customer customer ON customer.id_customer = ps_orders.id_customer
+        //             INNER JOIN ps_carrier carrier ON carrier.id_carrier = ps_orders.id_carrier
+        //             INNER JOIN ps_order_detail detail ON detail.id_order = ps_orders.id_order
+        //             INNER JOIN ps_order_payment payment ON payment.order_reference = ps_orders.reference
+        //             INNER JOIN ps_order_history history ON history.id_order = ps_orders.id_order
+        //             /*INNER JOIN ps_order_payment_detail payment_detail ON payment_detail.code = ps_orders.payment AND payment_detail.id_order_payment = payment.id_order_payment*/
+        //             WHERE ps_orders.valid = 1
+        //             " . $condition . "
+        //             AND ps_orders.current_state IN (SELECT id_order_state FROM ps_order_state WHERE paid = 1 and shipped = 0 and deleted = 0)    
+        //             GROUP BY ps_orders.id_order
+        //             ORDER BY ps_orders.date_add DESC;"
+        // ;
+
+        // REQUETE DE TEST
+        // $requete = "SELECT CONCAT(employee.firstname, ' ', employee.lastname) as nom, ps_orders.id_order
+        // FROM ps_orders
+        // INNER JOIN ps_order_history history ON history.id_order = ps_orders.id_order
+        // INNER JOIN ps_employee employee ON employee.id_employee = history.id_employee
+        // ORDER BY ps_orders.id_order ASC
+        // LIMIT 10";
+
+        // REQUETE DE TEST 2
+        // $requete = "SELECT * FROM ps_employee LIMIT 10";
+
+        $requete = "SELECT ps_orders.id_order, CAST(ps_orders.total_paid_real as decimal(20,3)) as montant, CAST(payment.amount as decimal(20,3)) as montant_payment, date_format(ps_orders.date_add,\"%d-%m-%Y\") as date_facturation
+        FROM ps_orders
+        INNER JOIN ps_order_payment payment ON payment.order_reference = ps_orders.reference
+        ORDER BY ps_orders.id_order DESC
+        LIMIT 250";
+
+        // -> Récupération du repository de l'entité "Jour"
+        // $jourRepository = $this->getDoctrine()->getRepository(Jour::class);
+
+        // -> Récupération des données pour chaque jour de la semaine
+        // $lundi = $jourRepository->findOneBy(['nom' => 'lundi']);
+        // $mardi = $jourRepository->findOneBy(['nom' => 'mardi']);
+        // $mercredi = $jourRepository->findOneBy(['nom' => 'mercredi']);
+        // $jeudi = $jourRepository->findOneBy(['nom' => 'jeudi']);
+        // $vendredi = $jourRepository->findOneBy(['nom' => 'vendredi']);
+        // $samedi = $jourRepository->findOneBy(['nom' => 'samedi']);
+        // $dimanche = $jourRepository->findOneBy(['nom' => 'dimanche']);
+        
+        return $db->executeS($requete);
+    }
+
+    public function indexAction()
+    {
+        $data = $this->connectionSQL("");
+        return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage.html.twig',
+        [
+            'data' => $data,
+            'ok' => false
+        ]);
+    }
+
+    // public function selectDateSQL()
+    // {
+    //     $db = Db::getInstance();
+
+    //     $requete = "SELECT DISTINCT p.id_product_comment as comment,
+    //                                 p.customer_name as name,
+    //                                 p.id_product as product,
+    //                                 lang.name as nameProduct,
+    //                                 p.date_add as date,
+    //                                 product.reference as reference,
+    //                                 p.grade as note,
+    //                                 p.title as titre,
+    //                                 p.content as contenu,
+    //                                 customer.email as mail,
+    //                                 address.city as lieu,
+    //                                 image_shop.id_image as image,
+    //                                 p.validate as validate
+    //                 FROM ps_product_comment p
+    //                 LEFT JOIN ps_customer customer ON customer.id_customer = p.id_customer
+    //                 LEFT JOIN ps_address address ON address.id_customer = p.id_customer
+    //                 INNER JOIN ps_product_lang lang ON lang.id_product = p.id_product AND lang.id_lang = 1
+    //                 INNER JOIN ps_product product ON product.id_product = p.id_product
+    //                 INNER JOIN ps_image_shop image_shop ON image_shop.id_product = p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1
+    //                 WHERE p.validate=0
+    //                 ORDER BY p.date_add DESC;";
+
+
+    //     return $db->executeS($requete);
+    // }
+
+    // public function createFormValide(Request $request)
+    // {
+    //     $remplace = array();
+    //     $condition = '';
+    //     if (isset($_REQUEST['task'])){
+    //         $condition = 'AND p.id_product_comment='.$_REQUEST['task'];           
+    //     }
+    //     $data = $this->selectCommentSQLWhere($condition);
+
+
+    //     $formValide = $this->createFormValideComment($data);
+    //     if (isset($_REQUEST['task'])){
+    //         $formValide->setData(['hidden' => $_REQUEST['task']]);
+    //     }
+    //     $formValide->handleRequest($request);
+        
+
+    //     if ($formValide->get('valider_le_commentaire')->isSubmitted() && $formValide->get('valide_livraison')->getData() == true && $formValide->get('ajout_livraison')->getData() == true)
+    //     {
+    //         $grade = $formValide->get("classement_du_produit")->getData();
+    //         $where = 'id_product_comment='.$formValide->get('hidden')->getData();
+    //         $livraison = "'".$formValide->get('texte_commentaire')->getData()."//livraison//livraison : ".$formValide->get('texte_livraison')->getData()."'";
+
+    //         $this->insertSqlValidateCommentContenu($grade, $where, $livraison);
+    //         return $this->redirectToRoute('xx_validation_avis');
+
+    //     }
+    //     elseif ($formValide->get('valider_le_commentaire')->isSubmitted() && $formValide->get('valide_livraison')->getData() == true)
+    //     {
+    //         $grade = $formValide->get("classement_du_produit")->getData();
+    //         $where = 'id_product_comment='.$formValide->get('hidden')->getData();
+            
+    //         $this->insertSqlValidateComment($grade, $where);
+    //         return $this->redirectToRoute('xx_validation_avis');
+
+    //     }
+    //     elseif ($formValide->get('valider_le_commentaire')->isSubmitted() && $formValide->get('valide_livraison')->getData() != true)
+    //     {
+    //         $grade = $formValide->get("classement_du_produit")->getData();
+    //         $where = 'id_product_comment='.$formValide->get('hidden')->getData();
+    //         $contenu = "'".$formValide->get('texte_commentaire')->getData()."'";
+
+    //         $this->insertSqlValidateCommentContenu($grade, $where, $contenu);
+    //         return $this->redirectToRoute('xx_validation_avis');
+
+    //     }
+
+    //     if ($formValide->get('supprimer_le_commentaire')->isSubmitted()){
+    //         $where = 'id_product_comment='.$formValide->get('hidden')->getData();
+
+    //         $this->deleteSqlValidateComment($where);
+    //         return $this->redirectToRoute('xx_validation_avis');
+    //     }
+
+
+    //     return $this->render('@Modules/validecommentaire/views/templates/admin/valide.html.twig', [
+    //         'formValide' => $formValide->createView(),
+    //     ]);
+    // }
+}
+```
+
+---
 
 ```php
 <?php
@@ -226,7 +492,7 @@ class PointageEncaissementBoutique extends Module
     {
         $this->name = 'pointageencaissementboutique';
         $this->tab = 'administration';
-        $this->version = '1.2.1';
+        $this->version = '1.2.4';
         $this->author = 'Hugo DOUEIL';
         $this->need_instance = 1;
 
@@ -447,60 +713,6 @@ class PointageEncaissementBoutique extends Module
 
 ---
 
-## ListOrderController.php
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin;
-
-use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
-use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Query\QueryBuilder;
-use PrestaShop\PrestaShop\Adapter\Entity\Db;
-
-class ListOrderController extends FrameworkBundleAdminController
-{
-
-    const TAB_CLASS_NAME = 'PointageEncaissementBoutiqueListOrderController';
-    
-    public function connectionSQL($condition)
-    {
-        // Connexion à la base de données
-        $db = Db::getInstance();
-
-        // Préparation de la requête
-        $requete = "SELECT ps_order_payment.id_order_payment,
-                           ps_order_payment.amount,
-                           ps_order_payment.date_add,
-                           orders.id_order
-        FROM ps_order_payment 
-        INNER JOIN ps_orders orders ON orders.reference = ps_order_payment.order_reference 
-        " . $condition . "
-        GROUP BY ps_order_payment.id_order_payment
-        ORDER BY ps_order_payment.date_add DESC
-        LIMIT 25;
-        ";
-
-
-        
-        return $db->executeS($requete);
-    }
-
-    public function indexAction()
-    {
-        $data = $this->connectionSQL("");
-        return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage.html.twig',
-        [
-            'data' => $data,
-            'ok' => false
-        ]);
-    }
-}
-```
+HUGO DOUEIL
 
 ---
-
-![Capture d’écran 2022-12-08 162921](https://user-images.githubusercontent.com/46538211/206487462-40f7312c-8cc6-4df5-9e60-6fb079a33dbd.png)
