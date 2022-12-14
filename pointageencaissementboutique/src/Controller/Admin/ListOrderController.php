@@ -86,10 +86,21 @@ class ListOrderController extends FrameworkBundleAdminController
         // REQUETE DE TEST 2
         // $requete = "SELECT * FROM ps_employee LIMIT 10";
 
-        $requete = "SELECT ps_orders.id_order, CAST(ps_orders.total_paid_real as decimal(20,3)) as montant, CAST(payment.amount as decimal(20,3)) as montant_payment, date_format(ps_orders.date_add,\"%d-%m-%Y\") as date_facturation
-        FROM ps_orders
-        INNER JOIN ps_order_payment payment ON payment.order_reference = ps_orders.reference
-        ORDER BY ps_orders.id_order DESC
+        $requete = "SELECT p.id_order, 
+                           p.date_add, 
+                           CAST(payment.amount as decimal(20,3)) as montant,
+                           p.total_paid_real as montant_payment,
+                           date_format(p.date_add,\"%d-%m-%Y\") as date_facturation,
+                           payment_detail.type as type_order,
+                           CONCAT(employee.firstname, ' ', employee.lastname, ' (', employee.email, ') ') as nom_employee
+        FROM ps_orders as p
+        INNER JOIN ps_order_payment payment ON payment.order_reference = p.reference
+        INNER JOIN ps_order_payment_detail payment_detail ON payment_detail.id_order_payment = payment.id_order_payment
+        INNER JOIN ps_order_history history ON history.id_order = p.id_order
+        INNER JOIN ps_employee employee ON employee.id_employee = history.id_employee
+        WHERE p.valid = 1 AND p.current_state IN (SELECT id_order_state FROM ps_order_state WHERE paid = 1 and shipped = 1)
+        GROUP BY p.id_order
+        ORDER BY p.date_add DESC
         LIMIT 50";
 
         // -> Récupération du repository de l'entité "Jour"
