@@ -8,6 +8,7 @@ use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Query\QueryBuilder;
 use PrestaShop\PrestaShop\Adapter\Entity\Db;
+use Symfony\Component\HttpFoundation\Request;
 
 class ListOrderController extends FrameworkBundleAdminController
 {
@@ -74,19 +75,21 @@ class ListOrderController extends FrameworkBundleAdminController
         //             ORDER BY ps_orders.date_add DESC;"
         // ;
 
-        // $requete = "SELECT *
+        // REQUETE DE TEST
+        // $requete = "SELECT CONCAT(employee.firstname, ' ', employee.lastname) as nom, ps_orders.id_order
         // FROM ps_orders
-        // INNER JOIN ps_order_payment payment ON payment.order_reference = ps_orders.reference
-        // /*INNER JOIN ps_order_payment_detail payment_detail ON payment_detail.code = ps_orders.payment*/
+        // INNER JOIN ps_order_history history ON history.id_order = ps_orders.id_order
+        // INNER JOIN ps_employee employee ON employee.id_employee = history.id_employee
         // ORDER BY ps_orders.id_order ASC
         // LIMIT 10";
 
-        // REQUETE DE TEST
-        $requete = "SELECT CAST(ps_orders.total_paid_real as decimal(20,2)) as montant, CAST(payment.amount as decimal(20,2)) as montant_payment
+        // REQUETE DE TEST 2
+        // $requete = "SELECT * FROM ps_employee LIMIT 10";
+
+        $requete = "SELECT ps_orders.id_order, CAST(ps_orders.total_paid_real as decimal(20,3)) as montant, CAST(payment.amount as decimal(20,3)) as montant_payment, date_format(ps_orders.date_add,\"%d-%m-%Y\") as date_facturation
         FROM ps_orders
         INNER JOIN ps_order_payment payment ON payment.order_reference = ps_orders.reference
-        -- WHERE ps_order_payment.date_add = 
-        ORDER BY id_order ASC
+        ORDER BY ps_orders.id_order DESC
         LIMIT 50";
 
         // -> Récupération du repository de l'entité "Jour"
@@ -113,4 +116,94 @@ class ListOrderController extends FrameworkBundleAdminController
             'ok' => false
         ]);
     }
+
+    // public function selectDateSQL()
+    // {
+    //     $db = Db::getInstance();
+
+    //     $requete = "SELECT DISTINCT p.id_product_comment as comment,
+    //                                 p.customer_name as name,
+    //                                 p.id_product as product,
+    //                                 lang.name as nameProduct,
+    //                                 p.date_add as date,
+    //                                 product.reference as reference,
+    //                                 p.grade as note,
+    //                                 p.title as titre,
+    //                                 p.content as contenu,
+    //                                 customer.email as mail,
+    //                                 address.city as lieu,
+    //                                 image_shop.id_image as image,
+    //                                 p.validate as validate
+    //                 FROM ps_product_comment p
+    //                 LEFT JOIN ps_customer customer ON customer.id_customer = p.id_customer
+    //                 LEFT JOIN ps_address address ON address.id_customer = p.id_customer
+    //                 INNER JOIN ps_product_lang lang ON lang.id_product = p.id_product AND lang.id_lang = 1
+    //                 INNER JOIN ps_product product ON product.id_product = p.id_product
+    //                 INNER JOIN ps_image_shop image_shop ON image_shop.id_product = p.id_product AND image_shop.cover = 1 AND image_shop.id_shop = 1
+    //                 WHERE p.validate=0
+    //                 ORDER BY p.date_add DESC;";
+
+
+    //     return $db->executeS($requete);
+    // }
+
+    // public function createFormValide(Request $request)
+    // {
+    //     $remplace = array();
+    //     $condition = '';
+    //     if (isset($_REQUEST['task'])){
+    //         $condition = 'AND p.id_product_comment='.$_REQUEST['task'];           
+    //     }
+    //     $data = $this->selectCommentSQLWhere($condition);
+
+
+    //     $formValide = $this->createFormValideComment($data);
+    //     if (isset($_REQUEST['task'])){
+    //         $formValide->setData(['hidden' => $_REQUEST['task']]);
+    //     }
+    //     $formValide->handleRequest($request);
+        
+
+    //     if ($formValide->get('valider_le_commentaire')->isSubmitted() && $formValide->get('valide_livraison')->getData() == true && $formValide->get('ajout_livraison')->getData() == true)
+    //     {
+    //         $grade = $formValide->get("classement_du_produit")->getData();
+    //         $where = 'id_product_comment='.$formValide->get('hidden')->getData();
+    //         $livraison = "'".$formValide->get('texte_commentaire')->getData()."//livraison//livraison : ".$formValide->get('texte_livraison')->getData()."'";
+
+    //         $this->insertSqlValidateCommentContenu($grade, $where, $livraison);
+    //         return $this->redirectToRoute('xx_validation_avis');
+
+    //     }
+    //     elseif ($formValide->get('valider_le_commentaire')->isSubmitted() && $formValide->get('valide_livraison')->getData() == true)
+    //     {
+    //         $grade = $formValide->get("classement_du_produit")->getData();
+    //         $where = 'id_product_comment='.$formValide->get('hidden')->getData();
+            
+    //         $this->insertSqlValidateComment($grade, $where);
+    //         return $this->redirectToRoute('xx_validation_avis');
+
+    //     }
+    //     elseif ($formValide->get('valider_le_commentaire')->isSubmitted() && $formValide->get('valide_livraison')->getData() != true)
+    //     {
+    //         $grade = $formValide->get("classement_du_produit")->getData();
+    //         $where = 'id_product_comment='.$formValide->get('hidden')->getData();
+    //         $contenu = "'".$formValide->get('texte_commentaire')->getData()."'";
+
+    //         $this->insertSqlValidateCommentContenu($grade, $where, $contenu);
+    //         return $this->redirectToRoute('xx_validation_avis');
+
+    //     }
+
+    //     if ($formValide->get('supprimer_le_commentaire')->isSubmitted()){
+    //         $where = 'id_product_comment='.$formValide->get('hidden')->getData();
+
+    //         $this->deleteSqlValidateComment($where);
+    //         return $this->redirectToRoute('xx_validation_avis');
+    //     }
+
+
+    //     return $this->render('@Modules/validecommentaire/views/templates/admin/valide.html.twig', [
+    //         'formValide' => $formValide->createView(),
+    //     ]);
+    // }
 }

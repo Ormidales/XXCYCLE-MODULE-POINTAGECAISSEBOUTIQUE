@@ -23,11 +23,11 @@ textarea {
 </style>
 
 	<div class="w-full bg-gray-50 p-3 rounded-lg overflow-auto">
-		<div class="w-full px-3 py-2 bg-gray-600 flex items-center mb-4 rounded-lg">
-			<p class="text-white text-[20px]">Date</p>
+		<div class="w-full px-3 py-2 bg-gray-600 flex items-center justify-between items-center mb-4 rounded-lg">
+			<p class="text-white text-[18px] font-bold">Liste des encaissements</p>
 			<form class="ml-3 flex inline">
-				<input type="date" class="w-[40vh] h-[3vh]">
-				<select class="ml-2 w-[15vh] h-[3vh]">
+				<input type="text" placeholder="Choisir la date voulue" class="w-[40vh] h-[4vh] border border-black text-black px-2">
+				<select class="ml-2 w-[18vh] h-[4vh] px-2">
 					<option>CB + PNF</option>
 					<option>CHEQUE</option>
 					<option>ESPECE</option>
@@ -37,14 +37,13 @@ textarea {
 					<option>1EURO</option>
 					<option>LCR</option>
 				</select>
-				<select class="ml-2 w-[15vh] h-[3vh]">
+				<select class="ml-2 w-[18vh] h-[4vh] px-2">
 					<option>Boutique</option>
 					<option>Internet</option>
 				</select>
 				<input type="submit" value="Charger" class="ml-2 bg-blue-500 px-4 py-1 rounded-lg text-white">
 			</form>
 		</div>
-		<p class="text-black text-[16px]">Liste des encaissements :</p>
 		<div class="w-full flex gap-3 overflow-auto relative">
 			<div class="w-3/4">
 				<table class="w-full rounded-lg">
@@ -78,7 +77,7 @@ textarea {
 									<option>CREDIT CLIENT</option>
 								</select>
 							</td>
-							<td>  </td>
+							<td> FACTURE </td>
 							<td>
 								<div class="w-full flex inline items-center justify-between">
 									<p> {{item.montant}} </p>
@@ -88,16 +87,43 @@ textarea {
 							<td>
 								<div class="w-full">
 									{% if item.montant in item.montant_payment %}
-									<input type="text" value="{{item.montant_payment}}" class="border border-green-600 text-green-600">
+									<input type="text" value="{{item.montant_payment}}" class="border-2 border-green-700 text-green-700 px-1 bg-green-500/5">
 									{% else %}
-									<input type="text" value="{{item.montant_payment}}" class="border border-red-600 text-red-600">
+									<input type="text" value="{{item.montant_payment}}" class="border-2 border-red-700 text-red-700 px-1 bg-red-500/5">
 									{% endif %}
 								</div>
 							</td>
-							<td></td>
-							<td></td>
+							<td> {{item.id_order}} </td>
+							<td> {{item.date_facturation}} </td>
 							<td></td>
 						</tr>
+						{# <tr>
+							<td>
+								<select class="w-[12vh] h-[3vh]">
+									<option>CB</option>
+									<option>ESPECE</option>
+									<option>CHEQUE</option>
+									<option>VIREMENT</option>
+									<option>XXCB</option>
+									<option>CREDIT CLIENT</option>
+								</select>
+							</td>
+							<td> FACTURE </td>
+							<td>
+								<div class="w-full flex inline items-center justify-between">
+									<p> {{item.id_employee}} </p>
+									<input type="checkbox">
+								</div>
+							</td>
+							<td>
+								<div class="w-full">
+									<input type="text" value="" class="border border-green-600 text-green-600">
+								</div>
+							</td>
+							<td> {{item.lastname}} </td>
+							<td>  </td>
+							<td>  </td>
+						</tr> #}
 					{% endfor %}
 					</tbody>
 				</table>
@@ -135,7 +161,7 @@ textarea {
 					</div>
 					<div class="w-full px-4 py-2 pb-4">
 						<p class="text-black text-[14px]">Commentaire</p>
-						<textarea class="mt-2 w-full h-[20vh] border border-black"></textarea>
+						<textarea class="mt-2 w-full min-h-[20vh] border border-black"></textarea>
 						<input type="submit" value="Valider" class="mt-2 bg-blue-500 px-3 py-1 rounded-lg text-white">
 					</div>
 				</div>
