@@ -28,12 +28,18 @@ textarea {
 			<form class="ml-3 flex inline">
 				<input type="date" class="w-[40vh] h-[3vh]">
 				<select class="ml-2 w-[15vh] h-[3vh]">
-					<option>ESPECE</option>
-					<option>CARTE BLEU</option>
+					<option>CB + PNF</option>
 					<option>CHEQUE</option>
+					<option>ESPECE</option>
+					<option>CREDIT CLIENT</option>
+					<option>VIREMENT</option>
+					<option>PAYPAL</option>
+					<option>1EURO</option>
+					<option>LCR</option>
 				</select>
 				<select class="ml-2 w-[15vh] h-[3vh]">
 					<option>Boutique</option>
+					<option>Internet</option>
 				</select>
 				<input type="submit" value="Charger" class="ml-2 bg-blue-500 px-4 py-1 rounded-lg text-white">
 			</form>
@@ -64,25 +70,32 @@ textarea {
 						<tr>
 							<td>
 								<select class="w-[12vh] h-[3vh]">
+									<option>CB</option>
 									<option>ESPECE</option>
-									<option>CARTE BLEU</option>
 									<option>CHEQUE</option>
+									<option>VIREMENT</option>
+									<option>XXCB</option>
+									<option>CREDIT CLIENT</option>
 								</select>
 							</td>
-							<td></td>
+							<td>  </td>
 							<td>
 								<div class="w-full flex inline items-center justify-between">
-									<p>{{item.amount}}</p>
+									<p> {{item.montant}} </p>
 									<input type="checkbox">
 								</div>
 							</td>
 							<td>
 								<div class="w-full">
-									<input type="text" value="{{item.amount}}" class="border border-black">
+									{% if item.montant in item.montant_payment %}
+									<input type="text" value="{{item.montant_payment}}" class="border border-green-600 text-green-600">
+									{% else %}
+									<input type="text" value="{{item.montant_payment}}" class="border border-red-600 text-red-600">
+									{% endif %}
 								</div>
 							</td>
 							<td></td>
-							<td>{{item.date_add}}</td>
+							<td></td>
 							<td></td>
 						</tr>
 					{% endfor %}
@@ -97,7 +110,14 @@ textarea {
 					</div>
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Total Théorique</p>
-						<p id="total-theorique" class="text-black text-[14px] font-bold">0.00</p>
+						<div class="flex items-center">
+							{% set total = 0 %}
+							{% for item in data %}
+								{% set total = total + item.montant %}
+							{% endfor %}
+							<p id="total-theorique" class="text-black text-[14px] font-bold">{{ total }}</p>
+							<p class="text-black text-[14px] font-bold ml-1">€</p>
+						</div>
 					</div>
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Total Coché</p>
@@ -108,7 +128,10 @@ textarea {
 					</div>
 					<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
 						<p class="text-black text-[14px]">Différence</p>
-						<p class="text-black text-[14px] font-bold">598.94</p>
+						<div class="flex items-center">
+							<p class="text-black text-[14px] font-bold">0.00</p>
+							<p class="text-black text-[14px] font-bold ml-1">€</p>
+						</div>
 					</div>
 					<div class="w-full px-4 py-2 pb-4">
 						<p class="text-black text-[14px]">Commentaire</p>
