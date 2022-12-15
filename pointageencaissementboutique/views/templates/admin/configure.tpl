@@ -45,7 +45,7 @@ textarea {
 
 <div class="panel">
 	<div class="moduleconfig-header">
-		<div class="px-2">
+		<div>
 			<h1>Pointage Encaissement Boutique</h1>
 		</div>
 	</div>
@@ -53,162 +53,26 @@ textarea {
 	<hr />
 
 	<div class="moduleconfig-content">
-		<div class="px-2">
-			<div class="w-full px-3 py-1 bg-gray-200 flex items-center mb-5">
-				<p class="text-black text-[20px]">Date</p>
-				<form class="ml-3 flex inline">
-					<input type="date" class="w-[40vh] h-[3vh]">
-					<select class="ml-2 w-[12vh] h-[3vh]">
-						<option>ESPECE</option>
-						<option>CARTE BLEU</option>
-						<option>CHEQUE</option>
-					</select>
-					<select class="ml-2 w-[12vh] h-[3vh]">
-						<option>Boutique</option>
-					</select>
-					<input type="submit" value="Charger" class="ml-2 w-[12vh] h-[3vh] bg-blue-500 px-4 py-1 rounded-lg text-white">
-				</form>
+		<div class="w-full mt-2">
+			<p class="text-black text-[18px]"><span class="text-[15px] text-white font-bold bg-zinc-900 px-3 py-1 rounded-lg">v1.2.7</span> | 15/12/2022</p>
+			<div class="mt-5">
+				<p class="text-black text-[12px]">Lien vers Module : <a href="http://alicemontredon.xxcycle.fr/admin_xx/index.php/modules/pointage_encaissement">http://alicemontredon.xxcycle.fr/admin_xx/index.php/modules/pointage_encaissement</a></p>
+				<p class="text-black text-[12px]">Lien vers Github : <a href="https://github.com/Ormidales/XXCYCLE-MODULE-POINTAGECAISSEBOUTIQUE">https://github.com/Ormidales/XXCYCLE-MODULE-POINTAGECAISSEBOUTIQUE</a></p>
+				<p class="text-black text-[12px]">Lien vers Trello Github : <a href="https://github.com/users/Ormidales/projects/2/views/1">https://github.com/users/Ormidales/projects/2/views/1</a></p>
 			</div>
-			<p class="text-black text-[16px]">Liste des encaissements :</p>
-			<div class="w-full flex gap-3">
-				<div class="w-3/4 rounded-lg">
-					<table class="w-full">
-						<thead>
-							<tr>
-								<th>Mode</th>
-								<th>Type</th>
-								<th>Montant</th>
-								<th>Montant Encaissé</th>
-								<th>Facture</th>
-								<th>Date</th>
-								<th>Vendeur</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<select class="w-[12vh] h-[3vh]">
-										<option>ESPECE</option>
-										<option>CARTE BLEU</option>
-										<option>CHEQUE</option>
-									</select>
-								</td>
-								<td>FACTURE</td>
-								<td>
-									<div class="w-full flex inline items-center justify-between">
-										<p>200.00</p>
-										<input type="checkbox">
-									</div>
-								</td>
-								<td>
-									<div class="w-full">
-										<input type="text" value="200.00">
-									</div>
-								</td>
-								<td>616224</td>
-								<td>10/11/2022</td>
-								<td>juliengabriel</td>
-							</tr>
-							<tr>
-								<td>
-									<select class="w-[12vh] h-[3vh]">
-										<option>ESPECE</option>
-										<option>CARTE BLEU</option>
-										<option>CHEQUE</option>
-									</select>
-								</td>
-								<td>FACTURE</td>
-								<td>
-									<div class="w-full flex inline items-center justify-between">
-										<p>326.05</p>
-										<input type="checkbox">
-									</div>
-								</td>
-								<td>
-									<div class="w-full">
-										<input type="text" value="326.0">
-									</div>
-								</td>
-								<td>616243</td>
-								<td>10/11/2022</td>
-								<td>christianvalentin</td>
-							</tr>
-							<tr>
-								<td>
-									<select class="w-[12vh] h-[3vh]">
-										<option>ESPECE</option>
-										<option>CARTE BLEU</option>
-										<option>CHEQUE</option>
-									</select>
-								</td>
-								<td>FACTURE</td>
-								<td>
-									<div class="w-full flex inline items-center justify-between">
-										<p>27.90</p>
-										<input type="checkbox">
-									</div>
-								</td>
-								<td>
-									<div class="w-full">
-										<input type="text" value="27.90">
-									</div>
-								</td>
-								<td>616267</td>
-								<td>10/11/2022</td>
-								<td>christianvalentin</td>
-							</tr>
-							<tr>
-								<td>
-									<select class="w-[12vh] h-[3vh]">
-										<option>ESPECE</option>
-										<option>CARTE BLEU</option>
-										<option>CHEQUE</option>
-									</select>
-								</td>
-								<td>FACTURE</td>
-								<td>
-									<div class="w-full flex inline items-center justify-between">
-										<p>44.99</p>
-										<input type="checkbox">
-									</div>
-								</td>
-								<td>
-									<div class="w-full">
-										<input type="text" value="44.99">
-									</div>
-								</td>
-								<td>616289</td>
-								<td>10/11/2022</td>
-								<td>gabrielbecker</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="w-1/4 rounded-lg">
-					<div class="w-full border border-black">
-						<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
-							<p class="text-black text-[14px]">Nombre de Tickets</p>
-							<p class="text-black text-[14px] font-bold">4</p>
-						</div>
-						<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
-							<p class="text-black text-[14px]">Total Théorique</p>
-							<p class="text-black text-[14px] font-bold">598.94</p>
-						</div>
-						<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
-							<p class="text-black text-[14px]">Total Coché</p>
-							<p class="text-black text-[14px] font-bold">0.00</p>
-						</div>
-						<div class="w-full flex items-center justify-between border-b border-black px-4 py-2">
-							<p class="text-black text-[14px]">Différence</p>
-							<p class="text-black text-[14px] font-bold">598.94</p>
-						</div>
-						<div class="w-full px-4 py-2 pb-4">
-							<p class="text-black text-[14px]">Commentaire</p>
-							<textarea class="w-full"></textarea>
-							<input type="submit" value="Valider" class="mt-2 w-[12vh] h-[3vh] bg-blue-500 px-3 py-1 rounded-lg text-white">
-						</div>
-					</div>
-				</div>
+			<div class="w-full border-t border-gray-200 mb-4 mt-4"></div>
+			<p class="text-black text-[14px]">
+			Ce code est un module PrestaShop qui fournit une interface pour le suivi des recettes en espèces d'un magasin particulier, en particulier les cartes de crédit. Le module crée un nouvel onglet dans la section d'administration du magasin PrestaShop où les utilisateurs peuvent voir et gérer les commandes et leurs informations de paiement. Le module utilise le gestionnaire de dépendances Composer pour inclure les bibliothèques requises et définir un script d'installation qui crée de nouvelles tables de base de données et enregistre un nouvel onglet dans la section d'administration du magasin.</p>
+			<div class="w-full border-t border-gray-200 mb-4 mt-4"></div>
+			<p class="text-black text-[14px]">Ceci est un fichier PHP pour un module PrestaShop. Il définit une classe appelée PointageEncaissementBoutique qui étend la classe Module fournie par PrestaShop. Le module ajoute une interface personnalisée dans le back-office d'un magasin PrestaShop qui permet aux commerçants de suivre les paiements, en particulier ceux effectués par carte de crédit. Le module définit plusieurs méthodes, notamment install, uninstall, getContent et postProcess. Les méthodes install et uninstall sont utilisées pour installer et désinstaller le module, respectivement. La méthode getContent est appelée lors de l'accès à la page de configuration du module et renvoie le formulaire qui permet aux utilisateurs de configurer le module. La méthode postProcess est appelée lorsque le formulaire est soumis et qu'elle enregistre les paramètres de configuration.</p>
+			<div class="w-full border-t border-gray-200 mt-4"></div>
+			<div class="mt-5 w-full grid grid-cols-2 gap-5">
+				<img src="https://user-images.githubusercontent.com/46538211/207831676-69741244-a5b8-4b1f-952b-37ade2c541a6.png" class="w-full">
+				<img src="https://user-images.githubusercontent.com/46538211/207828079-a3677847-2631-454d-be9c-4bb4d8afc84e.png" class="w-full">
+			</div>
+			<div class="mt-5 w-full grid grid-cols-2 gap-5">
+				<img src="https://user-images.githubusercontent.com/46538211/207828260-d6cbac94-ed21-49d7-98a5-7f097083e5b3.png" class="w-full">
+				<img src="https://user-images.githubusercontent.com/46538211/207828311-67dc41eb-c507-40b2-871d-b0051c9de6b9.png" class="w-full">
 			</div>
 		</div>
 	</div>

@@ -15,15 +15,22 @@ class ListOrderController extends FrameworkBundleAdminController
     {
         $db = Db::getInstance(); /* ON SE CONNECTE A LA BASE DE DONNÉE */
 
+        // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // REQUETE POUR VOIR TOUTS LES EMPLOYES DE LA TABLE ps_employee
         // $requete = "SELECT ps_employee.id_employee, CONCAT(ps_employee.firstname, ' ', ps_employee.lastname, ' (', ps_employee.email, ') ') as nom_employee FROM ps_employee";
+        // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+        // -----------------------------------------------
         // REQUETE POUR VOIR LES STATES DES COMMANDES
         // $requete = "SELECT * FROM ps_order_state";
+        // -----------------------------------------------
 
+        // -------------------------------------------
         // REQUETE POUR VOIR LES SHOPS
         // $requete = "SELECT * FROM ps_shop";
+        // -------------------------------------------
 
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         $requete = "SELECT p.id_order, /* ON RECUPERE id_order DE ps_orders */
                            p.date_add, /* ON RECUPERE date_add DE ps_orders */
                            CAST(payment.amount as decimal(20,3)) as montant, /* ON RECUPERE amount DE ps_order_payment ET ON LE NOMME montant */
@@ -38,11 +45,12 @@ class ListOrderController extends FrameworkBundleAdminController
         INNER JOIN ps_order_history history ON history.id_order = p.id_order /* ON JOINT LA TABLE ps_order_history QUE L'ON RENOMME history */
         INNER JOIN ps_employee employee ON employee.id_employee = history.id_employee /* ON JOINT LA TABLE ps_employee QUE L'ON RENOMME employee */
         INNER JOIN ps_customer customer ON customer.id_customer = p.id_customer /* ON JOINT LA TABLE ps_customer QUE L'ON RENOMME customer */
-        WHERE p.valid = 1 AND p.current_state IN (SELECT id_order_state FROM ps_order_state WHERE paid = 1 and shipped = 1) AND p.id_shop IN (SELECT id_shop FROM ps_shop WHERE id_shop = 3) /* FILTRES : SI p EST VALIDE ET p EST PAYE ET LIVRE AINSI QUE p A ETE PAYE EN BOUTIQUE aliceboutique */
+        WHERE p.current_state IN (SELECT id_order_state FROM ps_order_state WHERE paid = 1 and shipped = 1 and send_email = 0 and delivery = 0 and invoice = 1) /* FILTRES : SI p EST VALIDE ET p EST PAYÉ / EXPEDIÉ / PAS ENVOIE MAIL / PAS DE LIVRAISON / FACTURE */
         GROUP BY p.id_order /* GROUPÉ PAR ps_orders.id_order */
         ORDER BY p.date_add DESC /* ORDONNÉ PAR ps_orders.date_add */
         LIMIT 50 /* ON LIMITE LES LIGNES DE LA TABLE A 50 */
         ";
+        // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         
         return $db->executeS($requete); /* ON EXECUTE LA REQUETE */
     }
