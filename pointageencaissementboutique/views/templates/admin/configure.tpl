@@ -24,6 +24,7 @@
 *}
 
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
 
 <style>
 table,
@@ -67,13 +68,15 @@ textarea {
 			<p class="text-black text-[14px]">Ceci est un fichier PHP pour un module PrestaShop. Il définit une classe appelée PointageEncaissementBoutique qui étend la classe Module fournie par PrestaShop. Le module ajoute une interface personnalisée dans le back-office d'un magasin PrestaShop qui permet aux commerçants de suivre les paiements, en particulier ceux effectués par carte de crédit. Le module définit plusieurs méthodes, notamment install, uninstall, getContent et postProcess. Les méthodes install et uninstall sont utilisées pour installer et désinstaller le module, respectivement. La méthode getContent est appelée lors de l'accès à la page de configuration du module et renvoie le formulaire qui permet aux utilisateurs de configurer le module. La méthode postProcess est appelée lorsque le formulaire est soumis et qu'elle enregistre les paramètres de configuration.</p>
 			<div class="w-full border-t border-gray-200 mt-4"></div>
 			<div class="mt-5 w-full grid grid-cols-2 gap-5">
-				<img src="https://user-images.githubusercontent.com/46538211/207831676-69741244-a5b8-4b1f-952b-37ade2c541a6.png" class="w-full">
-				<img src="https://user-images.githubusercontent.com/46538211/207828079-a3677847-2631-454d-be9c-4bb4d8afc84e.png" class="w-full">
+				<a data-fancybox data-src="https://user-images.githubusercontent.com/46538211/207831676-69741244-a5b8-4b1f-952b-37ade2c541a6.png"><img src="https://user-images.githubusercontent.com/46538211/207831676-69741244-a5b8-4b1f-952b-37ade2c541a6.png" class="w-full"></a>
+				<a data-fancybox data-src="https://user-images.githubusercontent.com/46538211/207828079-a3677847-2631-454d-be9c-4bb4d8afc84e.png"><img src="https://user-images.githubusercontent.com/46538211/207828079-a3677847-2631-454d-be9c-4bb4d8afc84e.png" class="w-full"></a>
 			</div>
 			<div class="mt-5 w-full grid grid-cols-2 gap-5">
-				<img src="https://user-images.githubusercontent.com/46538211/207828260-d6cbac94-ed21-49d7-98a5-7f097083e5b3.png" class="w-full">
-				<img src="https://user-images.githubusercontent.com/46538211/207828311-67dc41eb-c507-40b2-871d-b0051c9de6b9.png" class="w-full">
+				<a data-fancybox data-src="https://user-images.githubusercontent.com/46538211/207828260-d6cbac94-ed21-49d7-98a5-7f097083e5b3.png"><img src="https://user-images.githubusercontent.com/46538211/207828260-d6cbac94-ed21-49d7-98a5-7f097083e5b3.png" class="w-full"></a>
+				<a data-fancybox data-src="https://user-images.githubusercontent.com/46538211/207828311-67dc41eb-c507-40b2-871d-b0051c9de6b9.png"><img src="https://user-images.githubusercontent.com/46538211/207828311-67dc41eb-c507-40b2-871d-b0051c9de6b9.png" class="w-full"></a>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
