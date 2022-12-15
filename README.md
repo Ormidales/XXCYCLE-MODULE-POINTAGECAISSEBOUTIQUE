@@ -11,6 +11,8 @@ Ce code est un module PrestaShop qui fournit une interface pour le suivi des rec
 
 ---
 
+![Capture d’écran 2022-12-15 110744](https://user-images.githubusercontent.com/46538211/207831676-69741244-a5b8-4b1f-952b-37ade2c541a6.png)
+
 ![Capture d’écran 2022-12-15 104905](https://user-images.githubusercontent.com/46538211/207828079-a3677847-2631-454d-be9c-4bb4d8afc84e.png)
 
 ![Capture d’écran 2022-12-15 104916](https://user-images.githubusercontent.com/46538211/207828260-d6cbac94-ed21-49d7-98a5-7f097083e5b3.png)
