@@ -61,6 +61,7 @@ textarea {
 							<th class="p-1">Montant Encaissé</th>
 							<th class="p-1">Facture</th>
 							<th class="p-1">Date</th>
+							<th class="p-1">Client</th>
 							<th class="p-1">Vendeur</th>
 						</tr>
 					</thead>
@@ -96,6 +97,7 @@ textarea {
 							</td>
 							<td> <a href={{ orderViewUrl }}>{{item.id_order}}</a> </td>
 							<td> {{item.date_facturation}} </td>
+							<td> {{item.nom_customer}} </td>
 							<td> {{item.nom_employee}} </td>
 						</tr>
 						{# <tr>
