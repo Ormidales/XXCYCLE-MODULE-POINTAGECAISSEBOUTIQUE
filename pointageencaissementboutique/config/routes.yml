@@ -1,5 +1,11 @@
 xx_pointage_encaissement:
-    path: /pointage_encaissement
-    methods: [GET]
+    path: /pointage_encaissement/{date}
+    methods: [GET, POST]
     defaults:
         _controller: 'PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin\ListOrderController::indexAction'
+
+xx_pointage_encaissement_filtre:
+    path: /pointage_encaissement_filtre/{date}/{type}/{mode}
+    methods: [GET, POST]
+    defaults:
+        _controller: 'PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin\ListOrderController::indexActionFiltre'
