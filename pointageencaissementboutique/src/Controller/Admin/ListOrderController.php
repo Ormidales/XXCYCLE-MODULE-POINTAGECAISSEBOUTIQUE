@@ -115,7 +115,7 @@ class ListOrderController extends FrameworkBundleAdminController
         }
 
         $date = $request->attributes->get('date'); /* ON RECUPERE LA DATE DANS L'URL */
-        $data = $this->connectionSQL("AND date_format(p.date_add,\"%d-%m-%Y\") = '$date'"); /* ON RAJOUTE UN AND DANS LE WHERE DE LA REQUETE POUR JUSTE AVOIR LES DONNES DU JOUR VOULU */
+        $data = $this->connectionSQL("AND date_format(p.date_add,\"%d-%m-%Y\") = '$date' AND "); /* ON RAJOUTE UN AND DANS LE WHERE DE LA REQUETE POUR JUSTE AVOIR LES DONNES DU JOUR VOULU */
         return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage_filtre.html.twig', /* ON REND LA VUE TWIG */
         [
             'data' => $data, /* DATA (nouveau parametre) = DATA (ancien parametre) */

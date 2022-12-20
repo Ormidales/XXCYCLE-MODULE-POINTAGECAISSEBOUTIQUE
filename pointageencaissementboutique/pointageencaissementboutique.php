@@ -40,7 +40,7 @@ class PointageEncaissementBoutique extends Module
     {
         $this->name = 'pointageencaissementboutique';
         $this->tab = 'administration';
-        $this->version = '1.2.10';
+        $this->version = '1.3.0';
         $this->author = 'Hugo DOUEIL';
         $this->need_instance = 1;
 
