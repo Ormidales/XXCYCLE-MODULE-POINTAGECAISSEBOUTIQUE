@@ -2,7 +2,7 @@
 <module>
 	<name>pointageencaissementboutique</name>
 	<displayName><![CDATA[pointageencaissementboutique]]></displayName>
-	<version><![CDATA[1.2.7]]></version>
+	<version><![CDATA[1.2.9]]></version>
 	<description><![CDATA[Interface de pointage des encaissements de la boutique en particulier des cartes bleues.]]></description>
 	<author><![CDATA[Hugo DOUEIL]]></author>
 	<tab><![CDATA[administration]]></tab>

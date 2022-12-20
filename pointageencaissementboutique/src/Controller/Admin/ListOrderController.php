@@ -48,7 +48,7 @@ class ListOrderController extends FrameworkBundleAdminController
         WHERE p.current_state IN (SELECT id_order_state FROM ps_order_state WHERE paid = 1 and shipped = 1 and send_email = 0 and delivery = 0 and invoice = 1) /* FILTRES : SI p EST VALIDE ET p EST PAYÉ / EXPEDIÉ / PAS ENVOIE MAIL / PAS DE LIVRAISON / FACTURE */
         GROUP BY p.id_order /* GROUPÉ PAR ps_orders.id_order */
         ORDER BY p.date_add DESC /* ORDONNÉ PAR ps_orders.date_add */
-        LIMIT 50 /* ON LIMITE LES LIGNES DE LA TABLE A 50 */
+        -- LIMIT 50 /* ON LIMITE LES LIGNES DE LA TABLE A 50 */
         ";
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         
