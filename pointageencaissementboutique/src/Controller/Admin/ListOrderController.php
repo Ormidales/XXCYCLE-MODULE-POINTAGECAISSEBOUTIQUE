@@ -6,6 +6,8 @@ namespace PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin;
 
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShop\PrestaShop\Adapter\Entity\Db;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class ListOrderController extends FrameworkBundleAdminController
 {
@@ -46,22 +48,27 @@ class ListOrderController extends FrameworkBundleAdminController
         INNER JOIN ps_employee employee ON employee.id_employee = history.id_employee /* ON JOINT LA TABLE ps_employee QUE L'ON RENOMME employee */
         INNER JOIN ps_customer customer ON customer.id_customer = p.id_customer /* ON JOINT LA TABLE ps_customer QUE L'ON RENOMME customer */
         WHERE p.current_state IN (SELECT id_order_state FROM ps_order_state WHERE paid = 1 and shipped = 1 and send_email = 0 and delivery = 0 and invoice = 1) /* FILTRES : SI p EST VALIDE ET p EST PAYÉ / EXPEDIÉ / PAS ENVOIE MAIL / PAS DE LIVRAISON / FACTURE */
-        GROUP BY p.id_order /* GROUPÉ PAR ps_orders.id_order */
+        " . $condition . " 
+        GROUP BY p.date_add /* GROUPÉ PAR ps_orders.id_order */
         ORDER BY p.date_add DESC /* ORDONNÉ PAR ps_orders.date_add */
         -- LIMIT 50 /* ON LIMITE LES LIGNES DE LA TABLE A 50 */
         ";
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         
-        return $db->executeS($requete); /* ON EXECUTE LA REQUETE */
+         return $db->executeS($requete); /* ON EXECUTE LA REQUETE */
     }
 
-    public function indexAction() /* FONCTION POUR AFFICHER LA VIEW pointage.html.twig AVEC LA TABLE FAITE AU DESSUS */
+    /**
+     * @Route("/pointage_encaissement", name="pointage_encaissement")
+     */
+    public function indexAction(Request $request) /* FONCTION POUR AFFICHER LA VUE TWIG pointage.html.twig AVEC LA TABLE FAITE AU DESSUS ET EN MEME TEMPS RECUPERER LA DATE DANS L'URL */
     {
-        $data = $this->connectionSQL("");
-        return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage.html.twig',
+        $date = dump($request->query->get('date_facturation')); /* ON RECUPERE LA DATE DANS L'URL */
+        $data = $this->connectionSQL("AND date_format(p.date_add,\"%d-%m-%Y\") LIKE '$date'"); /* ON RAJOUTE UN AND DANS LE WHERE DE LA REQUETE POUR JUSTE AVOIR LES DONNES DU JOUR VOULU */
+        return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage.html.twig', /* ON REND LA VUE TWIG */
         [
-            'data' => $data,
-            'ok' => false
+            'data' => $data, /* DATA (nouveau parametre) = DATA (ancien parametre) */
+            'date' => $date /* DATE (nouveau parametre) = DATE (ancien parametre) */
         ]);
     }
 }
