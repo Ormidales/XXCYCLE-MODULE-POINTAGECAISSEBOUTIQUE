@@ -75,15 +75,15 @@ class ListOrderController extends FrameworkBundleAdminController
         $date = $request->get('date');
         
         // METHODE POUR AVOIR LE NOM DE LA BOUTIQUE
-        if($request->get('type') == 'Boutique')
+        if($request->get('type') == 'BOUTIQUE')
         {
             $type = 'aliceboutique';
         }
-        elseif($request->get('type') == 'InternetCOM')
+        elseif($request->get('type') == 'INTERNET-COM')
         {
             $type = 'alicemontredon.xxcycle.com';
         }
-        elseif($request->get('type') == 'InternetFR')
+        elseif($request->get('type') == 'INTERNET-FR')
         {
             $type = 'alicemontredon.xxcycle.fr';
         }
@@ -117,9 +117,12 @@ class ListOrderController extends FrameworkBundleAdminController
         {
             $mode = '1EURO';
         }
-        else
+        elseif($request->get('mode') == 'LCR')
         {
             $mode = 'LCR';
+        }
+        else{
+            $mode = 'CB';
         }
 
         // CONNECTION SQL AVEC LES CONDITIONS VOULUES

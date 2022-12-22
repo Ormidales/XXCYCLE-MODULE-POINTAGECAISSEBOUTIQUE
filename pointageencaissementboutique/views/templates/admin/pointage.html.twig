@@ -139,7 +139,7 @@ textarea {
 					<div class="w-full flex items-center justify-between border-b-2 border-black px-4 py-2">
 						<p class="text-black text-[14px]">Différence</p>
 						<div class="flex items-center">
-							<p id="total-coche" class="text-black text-[14px] font-bold">0.00</p>
+							<p id="total-difference" class="text-black text-[14px] font-bold">{{total}}</p>
 							<p class="text-black text-[14px] font-bold ml-1">€</p>
 						</div>
 					</div>
@@ -173,7 +173,22 @@ textarea {
     });
 
     // Afficher le total
-    document.querySelector('#total-coche').innerText = total.toFixed(2) ;
+    document.querySelector('#total-coche').innerText = total.toFixed(2);
+
+	// On créer la variable difference
+	let difference = 0;
+
+	// On créer la variable totalTheorique
+	let totalTheorique = {{ total }};
+	
+	// On dit que la variable totalCoche = texte dans le p avec id #total-coche
+	const totalCoche = document.querySelector('#total-coche').innerText;
+
+	// La différence sera égale au totalTheorique moins le totalCoche
+	difference = totalTheorique - totalCoche;
+
+	// On affiche le total dans le p avec id #total-difference
+	document.querySelector('#total-difference').innerText = difference.toFixed(2);
   }
 
   // Écoutez les clics sur la case à cocher "select-all".
