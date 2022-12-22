@@ -58,8 +58,7 @@ class ListOrderController extends FrameworkBundleAdminController
         WHERE p.id_order >0 /* FILTRES : SI p EST VALIDE ET p EST PAYÉ / EXPEDIÉ / PAS ENVOIE MAIL / PAS DE LIVRAISON / FACTURE */
         " . $condition . /* CONDITIONS QUE L'ON RAJOUTE SI ON EN A BESOIN */ " 
         GROUP BY p.date_add /* GROUPÉ PAR ps_orders.id_order */
-        ORDER BY p.date_add DESC /* ORDONNÉ PAR ps_orders.date_add */
-        -- LIMIT 50 /* ON LIMITE LES LIGNES DE LA TABLE A 50 */
+        ORDER BY p.date_add DESC /* ORDONNÉ PAR p.date_add */
         ";
         // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         
@@ -95,15 +94,15 @@ class ListOrderController extends FrameworkBundleAdminController
         }
         elseif($request->get('mode') == 'CHEQUE')
         {
-            $mode = 'Cheque';
+            $mode = 'Chèque';
         }
-        elseif($request->get('mode') == 'ESPECE')
+        elseif($request->get('mode') == 'ESPECES')
         {
-            $mode = 'Espece';
+            $mode = 'EspÃ¨ce';
         }
         elseif($request->get('mode') == 'CREDITCLIENT')
         {
-            $mode = 'CreditClient';
+            $mode = 'Credit Client';
         }
         elseif($request->get('mode') == 'VIREMENT')
         {
@@ -115,7 +114,7 @@ class ListOrderController extends FrameworkBundleAdminController
         }
         elseif($request->get('mode') == '1EURO')
         {
-            $mode = '1EURO';
+            $mode = '1euro';
         }
         elseif($request->get('mode') == 'LCR')
         {
@@ -131,6 +130,7 @@ class ListOrderController extends FrameworkBundleAdminController
         // ON CREER LA VIEW
         return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage.html.twig', [
             'data' => $data,
+            'date' => $date
         ]);
     }
 }
