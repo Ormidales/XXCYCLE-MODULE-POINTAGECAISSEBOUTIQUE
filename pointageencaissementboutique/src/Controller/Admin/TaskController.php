@@ -20,7 +20,6 @@ class TaskController extends AbstractController
     public function createForm_PointageEncaissementBoutique_Pointage_Afficher(Request $request)
     {
         if (isset($_REQUEST['form_date']) && isset($_REQUEST['form_mode']) && isset($_REQUEST['form_type'])){  
-            $task = null;
             $date = $_REQUEST['form_date']; 
             $type = $_REQUEST['form_type'];
             $mode = $_REQUEST['form_mode'];
@@ -174,6 +173,7 @@ class TaskController extends AbstractController
         INNER JOIN ps_customer customer ON customer.id_customer = p.id_customer /* ON JOINT LA TABLE ps_customer QUE L'ON RENOMME customer */
         INNER JOIN ps_shop shop ON shop.id_shop = p.id_shop /* ON JOINT LA TABLE ps_shop QUE L'ON RENOMME shop */
         INNER JOIN ps_shop_group shop_group ON shop_group.id_shop_group = shop.id_shop_group /* ON JOINT LA TABLE ps_shop QUE L'ON RENOMME shop */
+        LEFT JOIN ps_order_pointage table_pointage ON table_pointage.date_voulue = p.date_add
         WHERE p.id_order >0 /* FILTRES : SI p EST VALIDE ET p EST PAYÉ / EXPEDIÉ / PAS ENVOIE MAIL / PAS DE LIVRAISON / FACTURE */
         " . $condition . " /* CONDITIONS QUE L'ON RAJOUTE SI ON EN A BESOIN */
         GROUP BY p.date_add /* GROUPÉ PAR ps_orders.id_order */
