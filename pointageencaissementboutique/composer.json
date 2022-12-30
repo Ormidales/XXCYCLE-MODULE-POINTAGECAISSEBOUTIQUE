@@ -1,0 +1,12 @@
+{
+    "name": "prestashop/pointageencaissementboutique",
+    "autoload": {
+      "psr-4": {
+        "PrestaShop\\Module\\PointageEncaissementBoutique\\": "src/"
+      },
+      "config": {
+        "prepend-autoloader": false
+      },
+      "type": "prestashop-module"
+    }
+  }
