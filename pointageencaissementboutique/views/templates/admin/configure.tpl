@@ -57,7 +57,7 @@ textarea {
 		<div class="w-full mt-2">
 			<p class="text-black text-[18px]"><span class="text-[15px] text-white font-bold bg-zinc-900 px-3 py-1 rounded-lg">v1.3.5</span> | 22/12/2022</p>
 			<div class="mt-5">
-				<p class="text-black text-[12px]">Lien vers Module : <a href="http://alicemontredon.xxcycle.fr/admin_xx/index.php/modules/pointage_encaissement">http://alicemontredon.xxcycle.fr/admin_xx/index.php/modules/pointage_encaissement</a></p>
+				<p class="text-black text-[12px]">Lien vers Module : <a href="http://alicemontredon.xxcycle.fr/admin_xx/index.php/modules/pointage_encaissement">http://alicemontredon.xxcycle.fr/admin_xx/index.php/modules/pointage_encaissement/liste/BOUTIQUE/ESPECES/15-10-2022</a></p>
 				<p class="text-black text-[12px]">Lien vers Github : <a href="https://github.com/Ormidales/XXCYCLE-MODULE-POINTAGECAISSEBOUTIQUE">https://github.com/Ormidales/XXCYCLE-MODULE-POINTAGECAISSEBOUTIQUE</a></p>
 				<p class="text-black text-[12px]">Lien vers Trello Github : <a href="https://github.com/users/Ormidales/projects/2/views/1">https://github.com/users/Ormidales/projects/2/views/1</a></p>
 			</div>

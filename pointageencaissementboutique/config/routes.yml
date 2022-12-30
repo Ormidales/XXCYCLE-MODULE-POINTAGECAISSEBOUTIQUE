@@ -3,3 +3,9 @@ xx_pointage_encaissement:
     methods: [GET, POST]
     defaults:
         _controller: 'PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin\ListOrderController::indexAction'
+
+xx_acceuil_pointage_encaissement:
+    path: /pointage_encaissement/acceuil
+    methods: [GET, POST]
+    defaults:
+        _controller: 'PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin\ListOrderController::indexActionAccueil'

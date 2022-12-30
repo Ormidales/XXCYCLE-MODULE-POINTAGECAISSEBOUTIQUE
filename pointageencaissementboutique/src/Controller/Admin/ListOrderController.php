@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PrestaShop\Module\PointageEncaissementBoutique\Controller\Admin;
 
+use DateTime;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShop\PrestaShop\Adapter\Entity\Db;
 use Symfony\Component\HttpFoundation\Request;
@@ -132,5 +133,42 @@ class ListOrderController extends FrameworkBundleAdminController
             'data' => $data,
             'date' => $date
         ]);
+    }
+
+    public function IndexActionAccueil(Request $request)
+    {
+        // retrieve form values
+        $date = $request->get('date');
+
+        // CONNECTION SQL AVEC LES CONDITIONS VOULUES
+        $data = $this->connectionSQL("");
+
+        $message_erreur = "";
+
+        // ON CREER LA VIEW
+        return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/acceuil.html.twig', [
+            'data' => $data,
+            'date' => $date,
+            'message_erreur' => $message_erreur
+        ]);
+
+        if ($this->request->method == 'POST'){
+            if(!empty($POST['form_date']) AND !empty($POST['form_mode']) AND !empty($POST['form_type'])){
+                $form_date = htmlspecialchars($POST['form_date']);
+                $form_mode = htmlspecialchars($POST['form_mode']);
+                $form_type = htmlspecialchars($POST['form_type']);
+
+                // CONNECTION SQL AVEC LES CONDITIONS VOULUES
+                $data = $this->connectionSQL("AND date_format(p.date_add,\"%d-%m-%Y\") = '$form_date' AND shop.name = '$form_type' AND payment.payment_method = '$form_mode'", $form_date, $form_type, $form_mode);
+
+                return $this->render('@Modules/pointageencaissementboutique/views/templates/admin/pointage.html.twig', [
+                    'data' => $data,
+                    'date' => $form_date
+                ]);
+            }
+            else{
+                $message_erreur = "Vous n'avez pas rempli toutes les informations";
+            }
+        };
     }
 }
